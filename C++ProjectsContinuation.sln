@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CustomLibrary", "CustomLibr
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Eulerian Path", "Eulerian Path\Eulerian Path.vcxproj", "{05EB1CCC-3296-47B1-B5BC-73C16932F1D4}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Connected Graph", "Connected Graph\Connected Graph.vcxproj", "{6D54ECA5-876B-42DD-BB3B-84B54A5CB40D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -41,6 +43,14 @@ Global
 		{05EB1CCC-3296-47B1-B5BC-73C16932F1D4}.Release|x64.Build.0 = Release|x64
 		{05EB1CCC-3296-47B1-B5BC-73C16932F1D4}.Release|x86.ActiveCfg = Release|Win32
 		{05EB1CCC-3296-47B1-B5BC-73C16932F1D4}.Release|x86.Build.0 = Release|Win32
+		{6D54ECA5-876B-42DD-BB3B-84B54A5CB40D}.Debug|x64.ActiveCfg = Debug|x64
+		{6D54ECA5-876B-42DD-BB3B-84B54A5CB40D}.Debug|x64.Build.0 = Debug|x64
+		{6D54ECA5-876B-42DD-BB3B-84B54A5CB40D}.Debug|x86.ActiveCfg = Debug|Win32
+		{6D54ECA5-876B-42DD-BB3B-84B54A5CB40D}.Debug|x86.Build.0 = Debug|Win32
+		{6D54ECA5-876B-42DD-BB3B-84B54A5CB40D}.Release|x64.ActiveCfg = Release|x64
+		{6D54ECA5-876B-42DD-BB3B-84B54A5CB40D}.Release|x64.Build.0 = Release|x64
+		{6D54ECA5-876B-42DD-BB3B-84B54A5CB40D}.Release|x86.ActiveCfg = Release|Win32
+		{6D54ECA5-876B-42DD-BB3B-84B54A5CB40D}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -63,11 +63,6 @@ public:
 		return odd == 0 ? 2 : odd == 2 ? 1 : 0;
 	}
 
-private:
-	using Links = std::vector<Node>;
-	Node m_nodes;
-	std::vector<Links> m_links;
-
 	bool isConnected() const
 	{
 		for (const auto &val : goThrough(std::vector<bool>(m_nodes)))
@@ -75,6 +70,12 @@ private:
 				return false;
 		return true;
 	}
+
+private:
+	using Links = std::vector<Node>;
+	Node m_nodes;
+	std::vector<Links> m_links;
+
 	std::vector<bool> goThrough(std::vector<bool> check, const Node &node = 0) const
 	{
 		check[node] = true;
