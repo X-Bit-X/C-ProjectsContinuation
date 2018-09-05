@@ -4,21 +4,23 @@
 #include <vector>
 #include <algorithm>
 #include <array>
+#include <queue>
 
 #include "Error.h"
 
-using Node = unsigned int;
-using Edge = std::array<Node, 2>;
 class Graph
 {
 public:
+	using Node = unsigned int;
+	using Edge = std::pair<std::array<Node, 2>, double>;
+
 	Graph(Node nodes, const std::vector<Edge> &edges)
-		: m_nodes{ std::move(nodes) }, m_links{ std::vector<Links>(m_nodes) }
+		: m_nodes{ std::move(nodes) }, m_vertercies{ std::vector<Vertex>(m_nodes) }
 	{
-		for (const auto &edge : edges)
+		for (const auto &val : edges)
 		{
-			m_links[edge[0]].push_back(edge[1]); 
-			m_links[edge[1]].push_back(edge[0]);
+			m_vertercies[val.first[0]].push_back({ val.second, val.first[1] });
+			m_vertercies[val.first[1]].push_back({ val.second, val.first[0] });
 		}
 	}
 
@@ -28,25 +30,25 @@ public:
 		for (int it = 0; it < a.m_nodes; it++)
 			out << it << ' ';
 		out << ')';
-		for (const auto &it : a.m_links)
+		for (const auto &it : a.m_vertercies)
 		{
 			out << "{ ";
 			for (const auto &it2 : it)
-				out << it2 << ' ';
+				out << it2.second << ' ';
 			out << '}';
 		}
 		out << ']';
 		return out;
 	}
 
-	void setNodes(const Node &nodeLim) { m_nodes = nodeLim; m_links.resize(nodeLim); }
+	void setNodes(const Node &nodeLim) { m_nodes = nodeLim; m_vertercies.resize(nodeLim); }
 	void addEdge(const Edge &edge)
 	{
-		const Node m = std::max(edge[0], edge[1]);
-		if (m > m_links.size())
-			m_links.resize(m + 1);
-		m_links[edge[0]].push_back(edge[1]);
-		m_links[edge[1]].push_back(edge[0]);
+		const Node m = std::max(edge.first[0], edge.first[1]);
+		if (m > m_vertercies.size())
+			m_vertercies.resize(m + 1);
+		m_vertercies[edge.first[0]].push_back({ edge.second, edge.first[1] });
+		m_vertercies[edge.first[1]].push_back({ edge.second, edge.first[0] });
 	}
 
 	//0 -> none, 1 -> path, 2 -> circle and path
@@ -56,7 +58,7 @@ public:
 			return 0;
 
 		unsigned int odd = 0;
-		for (const auto &link : m_links)
+		for (const auto &link : m_vertercies)
 			if (link.size() & 1)
 				odd++;
 
@@ -71,17 +73,40 @@ public:
 		return true;
 	}
 
+	double dijkstra(const Node &start, const Node &destination) const
+	{
+		std::priority_queue<Link, std::vector<Link>, std::greater<Link>> pq;
+		std::vector<double> dist(m_nodes, HUGE_VAL);
+
+		pq.push({ 0, start });
+		dist[start] = 0;
+
+		while (!pq.empty())
+		{
+			const int current = pq.top().second;
+			pq.pop();
+			for (auto x : m_vertercies[current])
+				if (dist[x.second] > dist[current] + x.first)
+				{
+					dist[x.second] = dist[current] + x.first;
+					pq.push({ dist[x.second], x.second });
+				}
+		}
+		return dist[destination];
+	}
+
 private:
-	using Links = std::vector<Node>;
+	using Link = std::pair<double, Node>;
+	using Vertex = std::vector<Link>;
 	Node m_nodes;
-	std::vector<Links> m_links;
+	std::vector<Vertex> m_vertercies;
 
 	std::vector<bool> goThrough(std::vector<bool> check, const Node &node = 0) const
 	{
 		check[node] = true;
-		for (const auto &val : m_links[node])
-			if (!check[val])
-				check = goThrough(std::move(check), val);
+		for (const auto &val : m_vertercies[node])
+			if (!check[val.second])
+				check = goThrough(std::move(check), val.second);
 		return check;
-	};
+	}
 };
