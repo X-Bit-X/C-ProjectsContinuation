@@ -21,6 +21,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Fizz Buzz", "Fizz Buzz\Fizz
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Reverse a String", "Reverse a String\Reverse a String.vcxproj", "{6E526E90-C69D-49E3-B5F3-B08E4CDE2ECC}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Pig Latin", "Pig Latin\Pig Latin.vcxproj", "{CD7A2EF3-611F-4373-B13B-96F9944C301F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -101,6 +103,14 @@ Global
 		{6E526E90-C69D-49E3-B5F3-B08E4CDE2ECC}.Release|x64.Build.0 = Release|x64
 		{6E526E90-C69D-49E3-B5F3-B08E4CDE2ECC}.Release|x86.ActiveCfg = Release|Win32
 		{6E526E90-C69D-49E3-B5F3-B08E4CDE2ECC}.Release|x86.Build.0 = Release|Win32
+		{CD7A2EF3-611F-4373-B13B-96F9944C301F}.Debug|x64.ActiveCfg = Debug|x64
+		{CD7A2EF3-611F-4373-B13B-96F9944C301F}.Debug|x64.Build.0 = Debug|x64
+		{CD7A2EF3-611F-4373-B13B-96F9944C301F}.Debug|x86.ActiveCfg = Debug|Win32
+		{CD7A2EF3-611F-4373-B13B-96F9944C301F}.Debug|x86.Build.0 = Debug|Win32
+		{CD7A2EF3-611F-4373-B13B-96F9944C301F}.Release|x64.ActiveCfg = Release|x64
+		{CD7A2EF3-611F-4373-B13B-96F9944C301F}.Release|x64.Build.0 = Release|x64
+		{CD7A2EF3-611F-4373-B13B-96F9944C301F}.Release|x86.ActiveCfg = Release|Win32
+		{CD7A2EF3-611F-4373-B13B-96F9944C301F}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
