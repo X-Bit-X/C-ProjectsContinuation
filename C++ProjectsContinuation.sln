@@ -23,6 +23,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Reverse a String", "Reverse
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Pig Latin", "Pig Latin\Pig Latin.vcxproj", "{CD7A2EF3-611F-4373-B13B-96F9944C301F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Count Vowels", "Count Vowels\Count Vowels.vcxproj", "{34E512D7-800E-4C24-9EB2-0353EAD7EA8B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -111,6 +113,14 @@ Global
 		{CD7A2EF3-611F-4373-B13B-96F9944C301F}.Release|x64.Build.0 = Release|x64
 		{CD7A2EF3-611F-4373-B13B-96F9944C301F}.Release|x86.ActiveCfg = Release|Win32
 		{CD7A2EF3-611F-4373-B13B-96F9944C301F}.Release|x86.Build.0 = Release|Win32
+		{34E512D7-800E-4C24-9EB2-0353EAD7EA8B}.Debug|x64.ActiveCfg = Debug|x64
+		{34E512D7-800E-4C24-9EB2-0353EAD7EA8B}.Debug|x64.Build.0 = Debug|x64
+		{34E512D7-800E-4C24-9EB2-0353EAD7EA8B}.Debug|x86.ActiveCfg = Debug|Win32
+		{34E512D7-800E-4C24-9EB2-0353EAD7EA8B}.Debug|x86.Build.0 = Debug|Win32
+		{34E512D7-800E-4C24-9EB2-0353EAD7EA8B}.Release|x64.ActiveCfg = Release|x64
+		{34E512D7-800E-4C24-9EB2-0353EAD7EA8B}.Release|x64.Build.0 = Release|x64
+		{34E512D7-800E-4C24-9EB2-0353EAD7EA8B}.Release|x86.ActiveCfg = Release|Win32
+		{34E512D7-800E-4C24-9EB2-0353EAD7EA8B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
