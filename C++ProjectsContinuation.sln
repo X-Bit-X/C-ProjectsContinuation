@@ -31,6 +31,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Count Words in a String", "
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Text Editor", "Text Editor\Text Editor.vcxproj", "{5A505B9D-A156-4DFB-AF99-66C7CFFF8EE0}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RSS Feed Creator", "RSS Feed Creator\RSS Feed Creator.vcxproj", "{2AE8C8D6-DE74-409C-ADB8-F8EA34FC8103}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -181,6 +183,16 @@ Global
 		{5A505B9D-A156-4DFB-AF99-66C7CFFF8EE0}.Release|x64.Build.0 = Release|x64
 		{5A505B9D-A156-4DFB-AF99-66C7CFFF8EE0}.Release|x86.ActiveCfg = Release|Win32
 		{5A505B9D-A156-4DFB-AF99-66C7CFFF8EE0}.Release|x86.Build.0 = Release|Win32
+		{2AE8C8D6-DE74-409C-ADB8-F8EA34FC8103}.Debug|ARM.ActiveCfg = Debug|Win32
+		{2AE8C8D6-DE74-409C-ADB8-F8EA34FC8103}.Debug|x64.ActiveCfg = Debug|x64
+		{2AE8C8D6-DE74-409C-ADB8-F8EA34FC8103}.Debug|x64.Build.0 = Debug|x64
+		{2AE8C8D6-DE74-409C-ADB8-F8EA34FC8103}.Debug|x86.ActiveCfg = Debug|Win32
+		{2AE8C8D6-DE74-409C-ADB8-F8EA34FC8103}.Debug|x86.Build.0 = Debug|Win32
+		{2AE8C8D6-DE74-409C-ADB8-F8EA34FC8103}.Release|ARM.ActiveCfg = Release|Win32
+		{2AE8C8D6-DE74-409C-ADB8-F8EA34FC8103}.Release|x64.ActiveCfg = Release|x64
+		{2AE8C8D6-DE74-409C-ADB8-F8EA34FC8103}.Release|x64.Build.0 = Release|x64
+		{2AE8C8D6-DE74-409C-ADB8-F8EA34FC8103}.Release|x86.ActiveCfg = Release|Win32
+		{2AE8C8D6-DE74-409C-ADB8-F8EA34FC8103}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

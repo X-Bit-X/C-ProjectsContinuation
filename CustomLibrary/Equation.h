@@ -16,12 +16,7 @@
 class Equation
 {
 public:
-
-	Equation() = delete;
-	Equation(const Equation &) = delete;
-	Equation(Equation &&) = delete;
-
-	static double solve(const std::string &input)
+	double solve(const std::string &input)
 	{
 		//Parse
 		std::vector<std::string> equation;
@@ -74,47 +69,64 @@ private:
 		[](const char &val) constexpr { for (char i = 'a'; i <= 'z'; i++) if (i == val) return true; return false; },
 		[](const char &val) constexpr { return '*' == val || '/' == val; } };
 
-	static double evaluate(std::vector<std::string> equation)
+	virtual void constant(std::vector<std::string> &equation)
 	{
-		struct Pair
-		{
-			const std::string s_name; const double s_val; double(*s_func)(double);
-			Pair(const std::string &name, const double &val, double(*func)(double) = nullptr)
-				: s_name{ name }, s_val{ val }, s_func{ func } {}
-		};
-
-		//Step 1: Constant
 		for (unsigned int i = 0; i < equation.size(); i++)
-			for (const auto &val : { Pair("pi", std::acos(-1)), Pair("e", std::exp(1)) })
-				if (equation[i] == val.s_name || equation[i] == '+' + val.s_name || equation[i] == '-' + val.s_name)
+			for (const auto &val : { std::make_pair("pi", std::acos(-1)), std::make_pair("e", std::exp(1)) })
+				if (equation[i] == val.first || equation[i] == '+' + val.first || equation[i] == '-' + val.first)
 					if (equation[i].front() != '-')
-						equation[i] = std::to_string(val.s_val);
+						equation[i] = std::to_string(val.second);
 					else
-						equation[i] = std::to_string(-val.s_val);
+						equation[i] = std::to_string(-val.second);
+	}
 
-		//Step 2: Modifier
+	virtual void modifer(std::vector<std::string> &equation)
+	{
 		for (unsigned int i = 0; i < equation.size(); i++)
 		{
-			auto check = [&equation, &i](const Pair &val, double(*func)(const double &))
+			auto check = [&equation, &i](const std::pair<std::string, double(*)(double)> &val, double(*func)(const double &))
 			{
-				if (equation[i] == val.s_name || equation[i] == '-' + val.s_name || equation[i] == '+' + val.s_name)
+				if (equation[i] == val.first || equation[i] == '-' + val.first || equation[i] == '+' + val.first)
 				{
 					if (equation[i].front() != '-')
-						equation[i] = std::to_string(val.s_func(func(std::stod(equation[i + 1]))));
+						equation[i] = std::to_string(val.second(func(std::stod(equation[i + 1]))));
 					else
-						equation[i] = std::to_string(-val.s_func(func(std::stod(equation[i + 1]))));
+						equation[i] = std::to_string(-val.second(func(std::stod(equation[i + 1]))));
 					equation.erase(equation.begin() + i + 1, equation.begin() + i + 2);
 				}
 			};
+			auto fact = [](double x)
+			{
+				if (std::round(x) != x || x < 0)
+					throw Error("Number has a point or it's negative.");
+				double y = x;
+				for (short i = 1; i < x; i++)
+					y *= i;
+				return x > 0 ? y : 1;
+			};
 
-			for (const auto &val : { Pair("sin", 0, std::sin), Pair("cos", 0, std::cos), Pair("tan", 0, std::tan), Pair("asin", 0, std::asin), Pair("acos", 0, std::acos), Pair("atan", 0, std::atan) })
+			for (const std::pair<std::string, double(*)(double)> &val :
+				{
+					std::make_pair("sin", static_cast<double(*)(double)>(std::sin)),
+					std::make_pair("cos", static_cast<double(*)(double)>(std::cos)),
+					std::make_pair("tan", static_cast<double(*)(double)>(std::tan)),
+					std::make_pair("asin", static_cast<double(*)(double)>(std::asin)),
+					std::make_pair("acos", static_cast<double(*)(double)>(std::acos)),
+					std::make_pair("atan", static_cast<double(*)(double)>(std::atan))
+				})
 				check(val, [](const double &num) { return num / 180 * std::acos(-1); });
-			for (const auto &val : { Pair("fact", 0, [](double x) { if (std::round(x) != x || x < 0) throw Error("Number has a point or it's negative."); return [&x] { double y = x;  for (short i = 1; i < x; i++) y *= i; return x > 0 ? y : 1; }(); }),
-				Pair("log", 0, std::log), Pair("sqrt", 0, std::sqrt) })
+			for (const std::pair<std::string, double(*)(double)> &val :
+				{
+					std::make_pair("!", static_cast<double(*)(double)>(fact)),
+					std::make_pair("log", static_cast<double(*)(double)>(std::log)),
+					std::make_pair("sqrt", static_cast<double(*)(double)>(std::sqrt))
+				})
 				check(val, [](const double &num) constexpr { return num; });
 		}
+	}
 
-		//Step 3: Joiner
+	virtual void joiner(std::vector<std::string> &equation)
+	{
 		for (unsigned int i = 0; i < equation.size(); i++)
 			if (equation[i] == "*" || equation[i] == "/" || equation[i] == "mod" || equation[i] == "root" || equation[i] == "pow")
 			{
@@ -132,14 +144,30 @@ private:
 					throw Error("Equation has a divide by zero.");
 				equation.erase(equation.begin() + i + 1, equation.begin() + i + 3);
 			}
+	}
 
-		//Step 4: Sum
+	virtual double sum(std::vector<std::string> &equation)
+	{
 		double result = 0;
 		for (const auto &val : equation)
 			if (val != "")
 				result += std::stod(val);
-
 		return result;
+	}
+
+	double evaluate(std::vector<std::string> equation)
+	{
+		//Step 1: Constant
+		constant(equation);
+
+		//Step 2: Modifier
+		modifer(equation);
+
+		//Step 3: Joiner
+		joiner(equation);
+
+		//Step 4: Sum
+		return sum(equation);
 	}
 };
 #endif // !EQUATION

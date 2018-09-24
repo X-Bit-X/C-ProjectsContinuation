@@ -1,73 +1,65 @@
 #ifndef UNITCONVERSION
 #define UNITCONVERSION
 
-#include <Error.h>
 #include <vector>
+#include <algorithm>
+#include <string>
+#include <array>
 
-struct Unit
-{
-	const std::string s_type;
-	const double s_value;
+#include "Error.h"
 
-	Unit(const std::string &type, const double &Value)
-		: s_type{ type }, s_value{ Value } {}
-};
-
+using Prefix = std::pair<std::string, double>;
+const std::array<Prefix, 20> prefixes = { { { "Y", 1e24 },{ "Z", 1e21 },{ "E", 1e18 },{ "P", 1e15 },{ "T", 1e12 },{ "G", 1e9 },
+	{ "M", 1e6 },{ "k", 1e3 },{ "h", 1e2 },{ "da", 1e1 },{ "d", 1e-1 },
+	{ "c", 1e-2 },{ "m", 1e-3 },{ "u", 1e-6 },{ "n", 1e-9 },{ "p", 1e-12 },
+	{ "f", 1e-15 },{ "a", 1e-18 },{ "z", 1e-21 },{ "y", 1e-24 } } };
 class Type
 {
-
 public:
-
 	Type() {}
 
-	Type(const std::vector<double> &values, const std::vector<std::string> &types)
-			: m_values{ values }, m_types{ types } 
-	{
-		if (values.size() != types.size())
-			throw Error("Values and types aren't the same length.");
-	}
+	Type(std::string unit)
+			: m_unit{ std::move(unit) } {}
 
 	Type(const Type &ty)
-		: m_types{ ty.m_types }, m_values{ ty.m_values } {}
+		: m_unit{ ty.m_unit } {}
 
 	Type(Type &&ty)
-		: m_values{ std::move(ty.m_values) }, m_types{ std::move(ty.m_types) } {}
+		: m_unit{ std::move(ty.m_unit) }  {}
 
-	const double convert(const Unit &from, const std::string &to) const
+	double convert(const std::string &from, const std::string &to) const
 	{
-		auto find = [this](const std::string &target) { for (short i = 0; i < m_types.size(); i++) if (m_types[i] == target) return i; throw Error("Type non-existant"); };
-		const short iFrom = find(from.s_type);
-		const short iTo = find(to);
+		auto find = [&](const std::string &t) constexpr
+		{
+			for (const auto &prefix : prefixes)
+				if (t.compare(0, prefix.first.size(), prefix.first) == 0)
+					return prefix.second;
+			Error("false prefix");
+		};
 
-		return from.s_value / m_values[iFrom] * m_values[iTo];
+		return find(from) / find(to);
 	}
 	
-	const std::vector<double>& listValues() const { return m_values; }
-	const std::vector<std::string>& listTypes() const { return m_types; }
+	const std::string& unit() const { return m_unit; }
 
 	Type& operator=(const Type &ty)
 	{
-		m_values = ty.m_values;
-		m_types = ty.m_types;
+		m_unit = ty.m_unit;
 		return *this;
 	}
 	Type& operator=(Type &&ty)
 	{
-		m_values = std::move(ty.m_values);
-		m_types = std::move(ty.m_types);
+		m_unit = std::move(ty.m_unit);
 		return *this;
 	}
 	
 private:
-
-	std::vector<double> m_values;
-	std::vector<std::string> m_types;
-
+	std::string m_unit;
 };
 
-namespace DefaultType
-{
-	extern const Type distance({ 1, 1.61, 1609.34, 63360, 5280, 160934 }, { "Mile", "Kilometre", "Metre", "Inch", "Foot", "Centimetre" });
-}
+//namespace DefaultType
+//{
+//	extern const Type distance({ 1, 1.61, 1609.34, 63360, 5280, 160934 }, { "Mile", "Kilometre", "Metre", "Inch", "Foot", "Centimetre" });
+//}
 
 #endif // !UNITCONVERSION
