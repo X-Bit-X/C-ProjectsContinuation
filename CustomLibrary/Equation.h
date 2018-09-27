@@ -38,6 +38,8 @@ public:
 				}
 		}
 
+		additional(equation);
+
 		//Find all bracket pairs
 		std::vector<std::array<unsigned int, 2>> brackets;
 		for (unsigned int i = 0; i < equation.size(); i++)
@@ -69,10 +71,12 @@ private:
 		[](const char &val) constexpr { for (char i = 'a'; i <= 'z'; i++) if (i == val) return true; return false; },
 		[](const char &val) constexpr { return '*' == val || '/' == val; } };
 
+	virtual void additional(std::vector<std::string> &equation) {}
+
 	virtual void constant(std::vector<std::string> &equation)
 	{
 		for (unsigned int i = 0; i < equation.size(); i++)
-			for (const auto &val : { std::make_pair("pi", std::acos(-1)), std::make_pair("e", std::exp(1)) })
+			for (const auto &val : std::initializer_list<std::pair<std::string, double>>{ { "pi", std::acos(-1) }, { "e", std::exp(1) } })
 				if (equation[i] == val.first || equation[i] == '+' + val.first || equation[i] == '-' + val.first)
 					if (equation[i].front() != '-')
 						equation[i] = std::to_string(val.second);
@@ -105,21 +109,15 @@ private:
 				return x > 0 ? y : 1;
 			};
 
-			for (const std::pair<std::string, double(*)(double)> &val :
+			for (const auto &val : std::initializer_list<std::pair<std::string, double(*)(double)>>
 				{
-					std::make_pair("sin", static_cast<double(*)(double)>(std::sin)),
-					std::make_pair("cos", static_cast<double(*)(double)>(std::cos)),
-					std::make_pair("tan", static_cast<double(*)(double)>(std::tan)),
-					std::make_pair("asin", static_cast<double(*)(double)>(std::asin)),
-					std::make_pair("acos", static_cast<double(*)(double)>(std::acos)),
-					std::make_pair("atan", static_cast<double(*)(double)>(std::atan))
+					{ "sin", std::sin },{ "cos", std::cos },{ "tan", std::tan },
+					{ "asin", std::asin },{ "acos", std::acos },{ "atan", std::atan }
 				})
 				check(val, [](const double &num) { return num / 180 * std::acos(-1); });
-			for (const std::pair<std::string, double(*)(double)> &val :
+			for (const auto &val : std::initializer_list<std::pair<std::string, double(*)(double)>>
 				{
-					std::make_pair("!", static_cast<double(*)(double)>(fact)),
-					std::make_pair("log", static_cast<double(*)(double)>(std::log)),
-					std::make_pair("sqrt", static_cast<double(*)(double)>(std::sqrt))
+					{ "!", fact },{ "log", std::log },{ "sqrt", std::sqrt }
 				})
 				check(val, [](const double &num) constexpr { return num; });
 		}
@@ -157,6 +155,7 @@ private:
 
 	double evaluate(std::vector<std::string> equation)
 	{
+		std::remove(equation.begin(), equation.end(), "");
 		//Step 1: Constant
 		constant(equation);
 
