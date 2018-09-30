@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EquationOld.h" />
     <ClInclude Include="Equation.h" />
     <ClInclude Include="Error.h" />
     <ClInclude Include="Graph.h" />
